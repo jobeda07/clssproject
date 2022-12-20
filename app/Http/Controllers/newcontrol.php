@@ -5,12 +5,71 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Userinfo;
+use App\Models\Imagecurd;
+// use Faker\Core\File;
+use Illuminate\Support\Facades\File;
 
 class newcontrol extends Controller
 {
-    public function employee(){
-        return view('backendsecond.pages.partial.employee');
-    }
+    
+    
+    // public function employee_create(Request $request){
+    //       $request->validate([
+    //         'employee_name'=>'required',
+    //         'employee_image'=>'required'
+
+    //       ]);
+     
+    //       $employee_image=$request->employee_image;
+    //       $imagename=time().'.'.$employee_image->getClientOriginalExtension();
+    //       $request->employee_image->move('imagefile/employee' ,$imagename);
+
+    //     //$imagename = $request->file('employee_image')->store('imagefile', 'public');
+
+
+    //       //$imagename='';
+    //     //   if($employee_image = $request->file('employee_image')){
+    //     //     $imagename =time().'.'.$employee_image->getClientOrginalExtension();
+    //     //     $request->employee_image->move('imagefile/employee',$imagename);
+    //     //   }
+    //     Imagecurd::create([
+    //         'employee_name'=>$request->employee_name,
+    //         'employee_image'=>$imagename
+    //       ]);
+    //       return redirect()->route('employee.list');
+    // }
+    // 
+
+
+    //updateimage
+    // public function employee_update(Request $request ,$id){
+    //     $employeenew = Imagecurd::find($id);
+    //     $request->validate([
+    //         'employee_name'=>'required'
+    //       ]);
+    //     $oldimgdelete='imagefile/employee/'.$employeenew->employee_image;
+    //     if(File::exists($oldimgdelete)){
+    //         File::delete($employeenew);
+    //     }
+    //     else {
+    //         $imagename=$employeenew->employee_image;
+    //     }
+    //       $employee_image=$request->employee_image;
+    //       $imagename=time().'.'.$employee_image->getClientOriginalExtension();
+    //       $request->employee_image->move('imagefile/employee' ,$imagename);
+
+    //       Imagecurd::create([
+    //         'employee_name'=>$request->employee_name,
+    //         'employee_image'=>$imagename
+    //       ]);
+    //       return redirect()->route('employee.list');
+
+    // }
+
+
+
+
+
     public function category(){
         $categories=Category::all();
         return view ('backendsecond.pages.partial.category',compact('categories'));
@@ -105,6 +164,75 @@ class newcontrol extends Controller
         ]);
         return redirect()->route('usershowpage');
     }
+
+    
+
+
+    public function employee_form(){
+        return view('backendsecond.pages.partial.employeeform');
+    }
+
+    public function employee_list(){
+        $employees = Imagecurd::all();
+       return view('backendsecond.pages.partial.employeelist',compact(('employees')));
+   }
+
+   public function  employee_editform($id){
+       $imagecruds = Imagecurd::find($id);
+        return view ('backendsecond.pages.partial.employee-edit',compact('imagecruds'));
+
+    }
+
+
+
+    #another create system
+    public function employee_create(Request $request){
+     $imagecruds = new Imagecurd();
+
+     $imagecruds->employee_name = $request->employee_name;
+    
+     if($request->hasfile('employee_image')){
+        $file = $request->file('employee_image');
+        $extention = $file-> getClientOriginalExtension();
+        $filename = time().'.'.$extention;
+        $file->move('uploade/image',$filename);
+        $imagecruds->employee_image = $filename;
+     }
+     $imagecruds->save();
+      return redirect()->route('employee.list');
+  
+         
+    }
+
+    public function employee_update(Request $request,$id){
+        $imagecruds =Imagecurd::find($id);
+   
+        $imagecruds->employee_name = $request->employee_name;
+       
+        if($request->hasfile('employee_image')){
+            $destination= 'uploade/image'.$imagecruds->employee_image;
+            if(File::exists($destination)){
+                File::delete($destination);
+            }
+           $file = $request->file('employee_image');
+           $extention = $file-> getClientOriginalExtension();
+           $filename = time().'.'.$extention;
+           $file->move('uploade/image',$filename);
+           $imagecruds->employee_image = $filename;
+        }
+        $imagecruds->update();
+         return redirect()->route('employee.list');
+    }
+
+
+
+    public function employee_delete($id){
+       Imagecurd::find($id)->delete();
+        return back();    
+    }
+    
+   
     
 
 }
+

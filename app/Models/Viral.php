@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Userinfo extends Model
+class Viral extends Model
 {
     use HasFactory;
-    protected $fillable=['user_name','user_email','user_mobile','user_address'];
     protected $guarded=[];
 }

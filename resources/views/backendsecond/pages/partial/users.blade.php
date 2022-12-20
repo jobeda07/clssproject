@@ -11,7 +11,7 @@
    <form class="form" action="{{route('usercreate')}}" method="post">
         @csrf
         <!-- Name input -->
-
+<div class="form-outline mb-4">
 <label class="form-label" for="form7Example1">Name</label>
   <input type="text" name="user_name" id="form7Example1" class="form-control" />
   @error('user_name')<div class=" alert alert-danger">{{$message}} </div> @enderror

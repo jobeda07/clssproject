@@ -10,7 +10,7 @@
     </a>
   </li><!-- End Dashboard Nav -->
   <li class="nav-item">
-    <a class="nav-link " href="{{route('employee')}}">
+    <a class="nav-link " href="{{route('employee.list')}}">
       <i class="bi bi-grid"></i>
       <span>employee</span>
     </a>
@@ -34,7 +34,12 @@
     </a>
   </li><!-- End Dashboard Nav -->
  
-  
+  <li class="nav-item">
+    <a class="nav-link " href="{{route('viral.list')}}">
+      <i class="bi bi-grid"></i>
+      <span>Viral issue</span>
+    </a>
+  </li>
 
 
 
